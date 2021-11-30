@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,8 +20,9 @@ import android.view.ViewGroup;
 import com.rizal.mvvm.recyclerview.R;
 import com.rizal.mvvm.recyclerview.adapter.MovieAdapter;
 import com.rizal.mvvm.recyclerview.databinding.FragmentMovieBinding;
+import com.rizal.mvvm.recyclerview.listener.OnCLickMovieListener;
 import com.rizal.mvvm.recyclerview.model.Movie;
-import com.rizal.mvvm.recyclerview.util.MovieViewModelFactory;
+import com.rizal.mvvm.recyclerview.vmFactory.MovieViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,6 @@ public class MovieFragment extends Fragment {
     public MovieFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class MovieFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpRvMovie();
+
+
     }
 
     private List<Movie> getMovies(){
@@ -70,8 +74,14 @@ public class MovieFragment extends Fragment {
 
     private void setUpRvMovie() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        MovieAdapter adapter = new MovieAdapter();
-
+        MovieAdapter adapter = new MovieAdapter(new OnCLickMovieListener() {
+            @Override
+            public void onMovieClicked(Movie movie) {
+                viewModel.onMovieClicked(movie);
+                NavDirections action = MovieFragmentDirections.actionMovieFragmentToDetailFragment(movie);
+                Navigation.findNavController(requireView()).navigate(action);
+            }
+        });
         RecyclerView recyclerView = binding.rvMovie;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

@@ -1,4 +1,4 @@
-package com.rizal.mvvm.recyclerview.util;
+package com.rizal.mvvm.recyclerview.vmFactory;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

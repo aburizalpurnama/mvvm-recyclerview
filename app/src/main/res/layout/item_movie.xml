@@ -7,10 +7,14 @@
         <variable
             name="movie"
             type="com.rizal.mvvm.recyclerview.model.Movie" />
+         <variable
+            name="onClickMovieListner"
+            type="com.rizal.mvvm.recyclerview.listener.OnCLickMovieListener" />
 
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cv_movie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
@@ -20,7 +24,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onClick="@{()-> onClickMovieListner.onMovieClicked(movie)}">
 
             <TextView
                 android:id="@+id/tv_title"

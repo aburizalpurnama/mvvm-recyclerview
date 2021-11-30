@@ -10,10 +10,9 @@ import java.util.List;
 
 public class MovieViewModel extends ViewModel {
     private MutableLiveData<List<Movie>> liveDataOfListMovie = new MutableLiveData<>();
-    private List<Movie> listMovie = null;
+    private MutableLiveData<Movie> liveDataMovie = new MutableLiveData<>();
 
     public MovieViewModel(List<Movie> listMovie) {
-        this.listMovie = listMovie;
         liveDataOfListMovie.setValue(listMovie);
     }
 
@@ -21,9 +20,19 @@ public class MovieViewModel extends ViewModel {
         return liveDataOfListMovie;
     }
 
+    public void onMovieClicked(Movie movie){
+        this.liveDataMovie.setValue(movie);
+    }
+
+    public LiveData<Movie> getLiveDataMovie(){
+        return this.liveDataMovie;
+    }
+
     public void addMovie(){
+        List<Movie> listMovie = liveDataOfListMovie.getValue();
+        assert listMovie != null;
         Movie movie = new Movie("New Movie", "This is the description and sinopsis of the movie", false);
-        this.listMovie.add(movie);
+        listMovie.add(movie);
         this.liveDataOfListMovie.setValue(listMovie);
     }
 }

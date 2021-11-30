@@ -8,18 +8,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizal.mvvm.recyclerview.databinding.ItemMovieBinding;
+import com.rizal.mvvm.recyclerview.listener.OnCLickMovieListener;
 import com.rizal.mvvm.recyclerview.model.Movie;
 
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     private List<Movie> movieList;
-
-    public MovieAdapter() {
-    }
+    private OnCLickMovieListener onCLickMovieListener;
 
     public MovieAdapter(List<Movie> movieList) {
         this.movieList = movieList;
+    }
+
+    public MovieAdapter(OnCLickMovieListener onCLickMovieListener) {
+        this.onCLickMovieListener = onCLickMovieListener;
+    }
+
+    public MovieAdapter(List<Movie> movieList, OnCLickMovieListener onCLickMovieListener) {
+        this.movieList = movieList;
+        this.onCLickMovieListener = onCLickMovieListener;
     }
 
     public void setMovieList(List<Movie> movieList) {
@@ -38,7 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Movie movie = movieList.get(position);
-        holder.bind(movie);
+        holder.bind(movie, onCLickMovieListener);
     }
 
     @Override
@@ -58,8 +66,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             this.binding = binding;
         }
 
-        public void bind(Movie movie){
+        public void bind(Movie movie, OnCLickMovieListener cLickMovieListener){
             binding.setMovie(movie);
+            binding.setOnClickMovieListner(cLickMovieListener);
             binding.executePendingBindings();
         }
     }
